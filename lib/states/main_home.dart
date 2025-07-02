@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectm/bodys/body_home.dart';
 import 'package:projectm/states/sign_in_page.dart';
 import 'package:projectm/states/sign_up_page.dart';
+import 'package:projectm/utility/app_constant.dart';
 import 'package:projectm/utility/app_controller.dart';
 import 'package:projectm/utility/app_dialog.dart';
 import 'package:projectm/widgets/widget_button.dart';
@@ -25,7 +27,7 @@ class _MainHomeState extends State<MainHome> {
   ];
 
   var bodys = <Widget>[
-    Text('bodyHome'),
+    BodyHome(),
     Text('bodyReceive'),
     Text('bodyPackage'),
     Text('bodyProfile'),
@@ -50,7 +52,35 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        appBar: AppBar(title: Text('MainHome')),
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Image.asset('images/plug1.png'),
+          ),
+          title: Text(AppConstant.appName),
+          actions: [
+            ((appController.indexBody.value == 3))
+                ? WidgetButton(
+                    text: 'SignOut',
+                    onPressed: () async {
+                      AppDialog().normalDialog(
+                        title: Text('SignOut'),
+                        content: Text('Please Confirm SignOut'),
+                        firstButton: WidgetButton(text: 'Contirm', onPressed: ()async {
+                          
+                          await FirebaseAuth.instance.signOut().then((onValue) {
+
+                            Get.back();
+
+                            appController.indexBody.value = 0;
+                          });
+                        },)
+                      );
+                    },
+                  )
+                : SizedBox(),
+          ],
+        ),
 
         body: bodys[appController.indexBody.value],
         bottomNavigationBar: BottomNavigationBar(
@@ -67,21 +97,22 @@ class _MainHomeState extends State<MainHome> {
                 AppDialog().normalDialog(
                   content: Text('ฟีเจอร์ ตรงนี่ ต้องลงชื่อเข้าใช้งาน'),
                   title: Text('Cannot Working'),
-                  firstButton: WidgetButton(text: 'SignIn', onPressed: () {
+                  firstButton: WidgetButton(
+                    text: 'SignIn',
+                    onPressed: () {
+                      Get.back();
 
-                    Get.back();
+                      Get.to(SignInPage());
+                    },
+                  ),
+                  secondButton: WidgetButton(
+                    text: 'SignUp',
+                    onPressed: () {
+                      Get.back();
 
-                    Get.to(SignInPage());
-
-                  }),
-                  secondButton: WidgetButton(text: 'SignUp', onPressed: () {
-
-                    Get.back();
-
-                    Get.to(SignUpPage());
-
-
-                  }),
+                      Get.to(SignUpPage());
+                    },
+                  ),
                 );
               } else {
                 // Login อยู่

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectm/firebase_options.dart';
 import 'package:projectm/states/main_home.dart';
+import 'package:projectm/utility/app_constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +23,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       home: MainHome(),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppConstant.appColor),
         useMaterial3: true,
+        appBarTheme: AppBarTheme(backgroundColor: AppConstant.appColor, foregroundColor: Colors.white),
+
+
       ),
     );
   }
