@@ -23,10 +23,16 @@ class BodyHome extends StatelessWidget {
                 children: [
                   GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: 2,childAspectRatio: 2
                     ),
                     itemCount: AppConstant.groups.length,physics: ScrollPhysics(),shrinkWrap: true,
-                    itemBuilder: (context, index) => Text(AppConstant.groups[index]),
+                    itemBuilder: (context, index) => Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.electric_bike, size: 40, color: AppConstant.appColor),
+                        SizedBox(width: 10),
+                        Text(AppConstant.groups[index]),
+                      ],
+                    ),
                   ),
                   Text('data'),
                   Text('data'),
